@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertEase - Real Estate Platform</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">                l
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-home"></i>
+                PropertEase
+            </a>
+            <nav>
+                <a href="#" class="nav-link" data-action="buy">
+                    <i class="fas fa-search"></i>
+                    Comprar
+                </a>
+                <a href="#" class="nav-link" data-action="ret">
+                    <i class="fas fa-key"></i>
+                    Alugar
+                </a>
+                <a href="#" class="nav-link" data-action="sell">
+                    <i class="fas fa-tag"></i>
+                    Vender
+                </a>
+                <a href="#" class="nav-link primary">
+                    <i class="fas fa-user"></i>
+                    Entrar
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="search-page-layout">
+        <div class="hero-section">
+            <div class="container">
+                <h1 id="hero-title">Encontre sua casa dos sonhos</h1>
+                <p id="hero-subtitle">Milhares de imóveis exclusivos em Los Angeles e região</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="filter-bar">
+                <div class="search-group">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Cidade, Bairro, CEP..." class="filter-input" id="search-input">
+                </div>
+                
+                <div class="filter-group">
+                    <select class="filter-select" id="price-filter">
+                        <option value="">Preço</option>
+                        <option value="0-500k">Até $500k</option>
+                        <option value="500k-1m">$500k - $1M</option>
+                        <option value="1m-2m">$1M - $2M</option>
+                        <option value="2m+">$2M+</option>
+                    </select>
+                    
+                    <select class="filter-select" id="bedrooms-filter">
+                        <option value="">Quartos</option>
+                        <option value="1">1 quarto</option>
+                        <option value="2">2 quartos</option>
+                        <option value="3">3 quartos</option>
+                        <option value="4+">4+ quartos</option>
+                    </select>
+                    
+                    <select class="filter-select" id="type-filter">
+                        <option value="">Tipo</option>
+                        <option value="house">Casa</option>
+                        <option value="apartment">Apartamento</option>
+                        <option value="condo">Condomínio</option>
+                        <option value="townhouse">Townhouse</option>
+                    </select>
+                </div>
+                
+                <button class="filter-button primary" id="search-btn">
+                    <i class="fas fa-search"></i>
+                    Buscar
+                </button>
+            </div>
+
+            <div class="map-list-container">
+                <div id="listings-container" class="listings-container">
+                    <div class="listings-header">
+                        <div class="header-content">
+                            <h3><i class="fas fa-map-marker-alt"></i> <span id="listings-title">Imóveis em Los Angeles</span></h3>
+                            <p>Mostrando <span id="results-count">0</span> resultados</p>
+                        </div>
+                        <div class="view-controls">
+                            <button class="view-btn active" data-view="grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="listings-toolbar">
+                        <div class="sort-controls">
+                            <label>Ordenar por:</label>
+                            <select id="sort-select">
+                                <option value="relevance">Relevância</option>
+                                <option value="price-low">Preço: Menor</option>
+                                <option value="price-high">Preço: Maior</option>
+                                <option value="newest">Mais Recentes</option>
+                                <option value="sqft">Maior Área</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="listings-grid" class="listings-grid">
+                        <!-- Imóveis serão carregados aqui -->
+                    </div>
+                </div>
+
+                <div id="map" class="map-container">
+                    <div class="map-overlay">
+                        <div class="map-controls">
+                            <button class="map-control-btn" id="fullscreen-btn" title="Tela Cheia">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="map-control-btn" id="location-btn" title="Minha Localização">
+                                <i class="fas fa-crosshairs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Detalhes do Imóvel -->
+    <div id="property-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="modal-close">&times;</span>
+            <div id="modal-content">
+                <!-- Conteúdo do modal será carregado aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Carregando imóveis...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
